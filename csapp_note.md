@@ -19,5 +19,3 @@
    <img title="" src="file:///home/yuanye/图片/2022-10-06%2017-25-26%20的屏幕截图.png" alt="2022-10-06 17-25-26 的屏幕截图.png" width="309" data-align="center">
    
    8. PC：程序计数器（寄存器），ALU（算数/逻辑单元）
-
-
