@@ -1,3 +1,5 @@
+令牌：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
+
 + 从新与GitHub仓库建立联系，并可以提交代码：
   
   ```bash
