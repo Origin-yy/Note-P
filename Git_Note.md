@@ -2,7 +2,9 @@
 
 远程仓库指github仓库（repositoris），本地仓库指自己被git管理的文件夹（含有.git文件夹）。
 
-+ 重新与远程仓库建立联系，并可以提交代码（自己远程仓库有代码 , 本地无代码，比如重装系统了）：
++ 重新与远程仓库建立联系，并可以提交代码（自己远程仓库有代码 , 本地无代码，比如重装系统或者换电脑）：
+  
++ 如果只是本地没有了仓库，在与远程仓库建立链接时提示”远程origin已存在"，可以直接commit+push。
   
   ```bash
   # 克隆远程仓库到本地仓库
@@ -11,7 +13,7 @@
   cd 仓库
   # 初始化git
   git init
-  # 与远程仓库建立链接（关联远程仓库，远程仓库名字叫origin
+  # 与远程仓库建立链接（关联远程仓库，远程仓库名字叫origin）
   git remote add origin git@github.com:username/repository_name.git(远程仓库地址ssh)
   # 获取远程更新
   git fetch origin

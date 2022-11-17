@@ -1,4 +1,4 @@
-# [Markdown+Typora/VSCode 超全教程] 给大一新生安利的文本神器
+[Markdown+Typora/VSCode 超全教程] 给大一新生安利的文本神器
 
 Sakiyary 2022/7/16
 
@@ -152,7 +152,9 @@ int mian() {
 ``` // (这三个"`"文本编辑器会帮你自动补全 一般不用手动输)
 
 ```
-(我之前都是用这个来展示各种语法的, 应该不用举例了吧)
+(我之前都是用这个来展示各种语法的, 应该不用举例了吧)bazel编译：bazel build //main:hello-world
+
+bazel运行：bazel-bin/main/hello-world
 
 要想显示行数的话, 一般要在 Typora 的设置里勾上这个显示行数的选项. 
 
@@ -174,7 +176,9 @@ E.G.
 > 
 > > 学生特有的无处不在(恼)
 
-### 9. 无序列表 ["-" 或  "+" + 空格 前置]
+### 9. 无序列表 ["-" 或  "+" + 空格 前置]bazel编译：bazel build //main:hello-world
+
+bazel运行：bazel-bin/main/hello-world
 ```
 
 - 一颗是枣树 (我喜欢用这种)

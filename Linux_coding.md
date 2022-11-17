@@ -2,7 +2,7 @@
 
 ### 存储信息的结构体：
 
-- `DIR* dp`: **某个目录的信息**
+- `DIR* dp`: **某个目录的信息**(opendir返回，做readir参数)
 
   头文件：`dirent.h`
 
@@ -22,7 +22,7 @@
   typedef struct __dirstream DIR;  
   ```
 
-- `struct dirent *entry`: **某个文件在目录里的简略信息**
+- `struct dirent *entry`: **某个文件在目录里的简略信息**(readir返回)
 
   头文件：`dirent.h`
 
@@ -58,7 +58,7 @@
   ```
   ### 相关函数：
 
-- stat 与 lstat函数`chdir()`
+- `chdir()`
 
     用途：`int chdir(const char * path)`        
 
