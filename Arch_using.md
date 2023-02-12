@@ -9,23 +9,7 @@
 
 ## 常用命令
 
-##Pacman包管理：存存储器，系统总线，主存，磁盘。
-
-操作系统管理硬件。进程（处理器，主存，i/o设备），虚拟内存（主存，i/o设备），文件（i/o设备）。
-
-并发运行：一个进程的指令和另一个进程的指令交错执行。这种交错执行的机制叫上下文切换，进程间切换由内核管理。
-
-上下文：操作系统保持跟踪进程运行所需的所有状态信息。
-
-内核：操作系统代码常驻主存的一部分，不是独立的进程。是系统全部进程所用代码和数据结构的集合。
-
-栈位于用户虚拟地址空间顶部，编译器用它来实现函数调用，和堆一样，用户栈在程序执行期间可以动态地扩展和收缩 。 调用函数时，栈会增长；从一个函数返回时，栈会收缩 。
-
-内核虚拟内存：程序无法读写，或调用内核代码定义的函数，需要调用内核来执行操作。
-
-<img title="" src="file:///home/yuanye/图片/2022-10-06%2017-25-26%20的屏幕截图.png" alt="2022-10-06 17-25-26 的屏幕截图.png" width="309" data-align="center">
-
-PC：程序计数器（寄存器），ALU（算数/逻辑单元）
+##Pacman包管理：
 
 ```bash
 sudo pacman -Syu                # 升级系统
@@ -65,7 +49,8 @@ systemctl daemon-reload dhcpcd  # 重新载入 systemd 配置 扫描新增或变
 
 # 换源-阿里云
 
-编辑文件`/etc/pacman.d/mirrorlist`：
+<img title="" src="file:///home/yuanye/图片/2022-10-06%2017-25-26%20的屏幕截图.png" alt="2022-10-06 17-25-26 的屏幕截图.png" width="309" data-align="center">编辑文件`/etc/pacman.d/mirrorlist`：
+
 ```bash
 sudo vim /etc/pacman.d/mirrorlist
 ```
@@ -73,23 +58,8 @@ sudo vim /etc/pacman.d/mirrorlist
 ```bash
 Server = http://mirrors.aliyun.com/archlinux/$repo/os/$arch
 ```
->参考：[阿里云开发者社区> 镜像站> arch存存储器，系统总线，主存，磁盘。
+>参考：[阿里云开发者社区> 镜像站> archlinuxcn](https://developer.aliyun.com/mirror/archlinuxcn?spm=a2c6h.13651102.0.0.3e221b11Nc8UpY)
 >
->操作系统管理硬件。进程（处理器，主存，i/o设备），虚拟内存（主存，i/o设备），文件（i/o设备）。
->
->并发运行：一个进程的指令和另一个进程的指令交错执行。这种交错执行的机制叫上下文切换，进程间切换由内核管理。
->
->上下文：操作系统保持跟踪进程运行所需的所有状态信息。
->
->内核：操作系统代码常驻主存的一部分，不是独立的进程。是系统全部进程所用代码和数据结构的集合。
->
->栈位于用户虚拟地址空间顶部，编译器用它来实现函数调用，和堆一样，用户栈在程序执行期间可以动态地扩展和收缩 。 调用函数时，栈会增长；从一个函数返回时，栈会收缩 。
->
->内核虚拟内存：程序无法读写，或调用内核代码定义的函数，需要调用内核来执行操作。
->
-><img title="" src="file:///home/yuanye/图片/2022-10-06%2017-25-26%20的屏幕截图.png" alt="2022-10-06 17-25-26 的屏幕截图.png" width="309" data-align="center">
->
->PC：程序计数器（寄存器），ALU（算数/逻辑单元）linuxcn](https://developer.aliyun.com/mirror/archlinuxcn?spm=a2c6h.13651102.0.0.3e221b11Nc8UpY)
 ```bash
 sudo pacman -Syy && sudo pacman -S archlinuxcn-keyring
 ```
