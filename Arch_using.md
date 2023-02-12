@@ -49,7 +49,7 @@ systemctl daemon-reload dhcpcd  # 重新载入 systemd 配置 扫描新增或变
 
 # 换源-阿里云
 
-<img title="" src="file:///home/yuanye/图片/2022-10-06%2017-25-26%20的屏幕截图.png" alt="2022-10-06 17-25-26 的屏幕截图.png" width="309" data-align="center">编辑文件`/etc/pacman.d/mirrorlist`：
+编辑文件`/etc/pacman.d/mirrorlist`：
 
 ```bash
 sudo vim /etc/pacman.d/mirrorlist
