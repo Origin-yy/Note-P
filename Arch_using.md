@@ -86,8 +86,8 @@ yay -Syyu && yay -Sys
 + 连接显示器无法使用：
 
   + 解决：
-    根据Linux 安装使用教程](https://archlinuxstudio.github.io/ArchLinuxTutorial/#/)中**显卡驱动**所描述进行即可。
+    根据[Linux 安装使用教程](https://archlinuxstudio.github.io/ArchLinuxTutorial/#/)中**显卡驱动**所描述进行即可。
   
 + VSCode无法唤出外部终端：
   + 解决：
-    .vscode文件中设置启用外部终端，在settings.json文件中加入"terminal.external.linuxExec": "/usr/bin/konsole", ""内指要调用的终端具体位置，这里是/usr/bin/konsole。
+    `.vscode`文件中设置启用外部终端，在`settings.json`文件中加入"terminal.external.linuxExec": "/usr/bin/konsole", ""内指要调用的终端bin/konsole。
