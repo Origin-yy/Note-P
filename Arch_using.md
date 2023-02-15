@@ -91,3 +91,23 @@ yay -Syyu && yay -Sys
 + VSCode无法唤出外部终端：
   + 解决：
     `.vscode`文件中设置启用外部终端，在`settings.json`文件中加入"terminal.external.linuxExec": "/usr/bin/konsole", ""内指要调用的终端bin/konsole。
+  
++ 在升级系统（syu）时，出现以下内容：
+
+  ```bash
+  错误：python-markdown: 来自 "Caleb Maclennan <alerque@archlinux.org>" 的签名是勉强信任的
+  :: 文件 /var/cache/pacman/pkg/python-markdown-3.3.6-1-any.pkg.tar.zst 已损坏 (无效或已损坏的软件包 (PGP 签名)).
+  打算删除吗？ [Y/n] 
+  错误：trash-cli: 来自 "Alexander Epaneshnikov <alex19ep@archlinux.org>" 的签名是勉强信任的
+  :: 文件 /var/cache/pacman/pkg/trash-cli-0.21.10.24-1-any.pkg.tar.zst 已损坏 (无效或已损坏的软件包 (PGP 签名)).
+  打算删除吗？ [Y/n] 
+  错误：无法提交处理 (无效或已损坏的软件包)
+  发生错误，没有软件包被更新。
+  ```
+
+  + 解决：
+
+    终端输入：`sudo pacman-key --init && sudo pacman-key --populate && sudo pacman -Syyu`
+
+    可能的方法：`sudo pacman -S archlinux-keyring`
+
