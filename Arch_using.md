@@ -47,7 +47,7 @@ systemctl disable dhcpcd        # 取消开机自动启动
 systemctl daemon-reload dhcpcd  # 重新载入 systemd 配置 扫描新增或变更的服务单元 不会重新加载变更的配置 加载变更的配置用 reload
 ```
 
-# 换源-阿里云
+## 换源-阿里云
 
 编辑文件`/etc/pacman.d/mirrorlist`：
 
@@ -63,13 +63,15 @@ Server = http://mirrors.aliyun.com/archlinux/$repo/os/$arch
 ```bash
 sudo pacman -Syy && sudo pacman -S archlinuxcn-keyring
 ```
-#### 3、安装yay
+## 安装yay
+
 ```bash
 sudo pacman -S yay
 #安装完成后再次更新
 yay -Syyu && yay -Sys
 ```
-### 常见问题及其解决
+## 常见问题及其解决
+
 + 使用yay命令时报错：
   ```bash
   搜索 AUR 时出错: response decoding failed: invalid character '<' looking for
@@ -111,3 +113,73 @@ yay -Syyu && yay -Sys
 
     可能的方法：`sudo pacman -S archlinux-keyring`
 
+## 使用Docker
+
+1. 安装：
+    ```bash
+    sudo pacman -S docker # 安装Docker -Ss搜索Docker软件包
+    sudo systemctl enable docker.service # 开启Docker开机自启动服务
+    sudo systemctl start docker.service  # 启动Docker服务
+    # 安装好docker后自动建立了docker组，不需要自己添加docker组，只需要把当前工作用户加入docker组即可
+    sudo gpasswd -a $USER docker # 把工作用户加入Docker组，避免使用root账号工作
+    #重启系统生效
+    
+    sudo systemctl disable docker.service # 关闭开机自启动服务
+    ```
+
+2. 获取镜像：
+
+   ```bash
+   docker pull archlinux  # 下载镜像
+   docker image ls # 列出下载的镜像
+   docker ps -a   # 列出容器列表
+   docker run -t -i archlinux /bin/bash # 启动镜像
+   docker container rm archlinux # 删除一个处于终止状态的镜像
+   ```
+
+3. 配置镜像：
+
+   启动镜像，配置初始开发环境，安装了一些包（可能有些没有用），
+
+   ```bash
+   docker run -t -i archlinux /bin/bash # 启动镜像
+   
+   sed -i '1i Server = http://mirrors.aliyun.com/archlinux/$repo/os/$arch' /etc/pacman.d/mirrorlist \
+       && sed -i '1i Server = https://mirrors.tencent.com/archlinux/$repo/os/$arch' /etc/pacman.d/mirrorlist \
+       && sed -i '$i [archlinuxcn]' /etc/pacman.conf \
+       && sed -i '$i SigLevel = TrustAll' /etc/pacman.conf \
+       && sed -i '$i Server = https://repo.archlinuxcn.org/$arch' /etc/pacman.conf \
+       && sed -i -r 's/^NoExtract\s*=\s*.*/# \0/g' /etc/pacman.conf \
+       && pacman -Syyu --noconfirm \
+       && pacman -Sy --noconfirm archlinuxcn-keyring && pacman -Su --noconfirm\
+       && pacman -Syy --noconfirm git vim neovim zsh oh-my-zsh-git jdk-openjdk jdk8-openjdk jdk11-openjdk \
+       maven yay zsh python3 go nodejs npm yarn tmux python2 zsh-autosuggestions zsh-syntax-highlighting \
+       zsh-theme-powerlevel10k ranger python-pip python-neovim wl-clipboard fzf ripgrep man-db \
+       gcc clang base-devel wqy-zenhei noto-fonts-cjk wget unzip thefuck \
+       && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+       && pacman -Scc --noconfirm \
+       && rm -rf /var/lib/pacman/sync/* /var/cache/pacman/pkg/* \
+       && echo "" > /var/log/pacman.log
+   ```
+
+4. 配置vscode：
+
+   下载插件：Remote Development Pack（包含Remote-Containers)，Docker。打开插件，在CONTAINERS中右键Attach Visual Studio Code，在vscode中运行了镜像，重新安装一些扩展，当作一个新的archlinux一样使用。
+
+5. 容器和本地间的文件传输：
+
+   ```bash
+   docker ps -a   # 获得容器ID
+   docker cp 本地文件路径 ID全称:容器路径 # 本地文件复制到容器
+   docker cp ID全称:容器文件路径 本地路径 # 容器文件复制到本地
+   ```
+
+
+## Typora+PicGo+Github图床
+
+整体遵循：https://juejin.cn/post/6844904137407086600#heading-8
+
+1. 下载PicGo
+2. 创建GIthub仓库并获得Token
+3. 下载并配置node.js
+4. 测试图床
