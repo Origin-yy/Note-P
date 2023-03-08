@@ -1,9 +1,17 @@
-Here is the error report from LaterlGM:
+I cloned the enigma source and installed the dependencies listed, as well as the IDE and plugins, then I copy-pasted the given code into the newly created install.sh. As shown in the figure below.
 
+![8](https://raw.githubusercontent.com/Origin-yy/Picture/main/202303061620859.png)!](/home/origin/Pictures/8.png)
+
+But I didn't succeed. After I click Documentation on the far right of the toolbar, he will pop up the following window to report an error. 
+
+![9](https://raw.githubusercontent.com/Origin-yy/Picture/main/202303061631809.png)!](/home/origin/Pictures/9.png)
+
+The entire content of the Error Report is:
 
 ```bash
+
 LateralGM Version: 1.8.234
-Working Directory: /home/origin/lateralgm.jar
+Working Directory: /home/origin/enigma-dev/enigma-dev/lateralgm.jar
 
 Operating System: Linux
 Version: 6.1.12-arch1-1
@@ -15,14 +23,14 @@ Version: 19.0.2
 
 Current Thread: AWT-EventQueue-0
 Available processors (cores): 16
-Free memory (bytes): 107267000
+Free memory (bytes): 109439264
 Maximum memory (bytes): 3628072960
 Total memory available to JVM (bytes): 136314880
 
 File system root: /
 Total space (bytes): 83955703808
-Free space (bytes): 43849420800
-Usable space (bytes): 39537676288
+Free space (bytes): 43672080384
+Usable space (bytes): 39360335872
 
 Stack trace:
 java.lang.UnsupportedOperationException: The BROWSE action is not supported on the current platform!
@@ -50,7 +58,7 @@ java.lang.UnsupportedOperationException: The BROWSE action is not supported on t
 	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4827)
 	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:775)
 	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
+	at java.desktop/java.awt.EventQba shueue$4.run(EventQueue.java:714)
 	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
 	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
 	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:97)
@@ -65,4 +73,16 @@ java.lang.UnsupportedOperationException: The BROWSE action is not supported on t
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
 ```
+
+About `java.lang.UnsupportedOperationException: The BROWSE action is not supported on the current platform!`.I did some searching.
+
+Linux does not support the BROWSE action of the Desktop class: Open the default web browser and display a URL. Although Linux generally does not have a default browser, I have tried to set the default browser to chromium or firefox, but the problem is still not resolved.
+
+"Manually open a web browser and copy-paste the URL into the address bar" might be a temporary solution, but I know little about java and I didn't find the URL.
+
+
+
+
+

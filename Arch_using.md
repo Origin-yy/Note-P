@@ -179,7 +179,7 @@ yay -Syyu && yay -Sys
 
 整体遵循：https://juejin.cn/post/6844904137407086600#heading-8
 
-1. 下载PicGo
-2. 创建GIthub仓库并获得Token
+1. 创建GIthub仓库并创建Token并复制
+2. 下载PicGo（app）并配置，包括时间戳命名，选择github图床，仓库名，分支用main，设定Token
 3. 下载并配置node.js
-4. 测试图床
+4. 配置Typora并测试图床
