@@ -17,3 +17,5 @@ tips:
 bazel编译：bazel build //main:hello-world
 
 bazel运行：bazel-bin/main/hello-world
+
+chatgpt key ：ea3c7bf55bc8485c9cbb63ba1fc2d1ca

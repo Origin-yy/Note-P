@@ -41,48 +41,43 @@ extern const int i = 123; // a文件里定义并初始化i，加extern使其能�
 
 ### 数据结构
 
-1. stack 容器
-       	头文件<stack>，在std命名空间。stack 容器适配器的模板有两个参数。第一个参数是存储对象的类型，第二个参数是底层容器的类型。stack<T> 的底层容器默认是 deque<T> 容器，因此模板类型其实是 stack<typename T, typename Container=deque<T>>。通过指定第二个模板类型参数，可以使用任意类型的底层容器，只要它们支持 back()、push_back()、pop_back()、empty()、size() 这些操作。下面展示了如何定义一个使用 list<T> 的堆栈：
+1. **stack 容器**
+       	头文件<stack>，c在std命名空间。stack 容器适配器的模板有两个参数。第一个参数是存储对象的类型，第二个参数是底层容器的类型。stack<T> 的底层容器默认是 deque<T> 容器，因此模板类型其实是 stack<typename T, typename Container=deque<T>>。通过指定第二个模板类型参数，可以使用任意类型的底层容器，只要它们支持 back()、push_back()、pop_back()、empty()、size() 这些操作。下面展示了如何定义一个使用 list<T> 的堆栈：
 
     ```c++
-    using namespace std
     stack<string> words1;   // 省略第一个参数，用默认的底层容器deque<T>实现
     stack<string, list<string>> words2  // 底层容器使用list<T>
     ```
-	​		创建堆栈时，不能用对象来初始化，但是可以用另一个容器来初始化，只要堆栈的底层容器类型和这个容器的类型相同，且必须使用圆括号。例如：
-  
-    ```c++
-    using namespace std
+    ​		创建堆栈时，不能用对象来初始化，但是可以用另一个容器来初始化，只要堆栈的底层容器类型和这个容器的类型相同，且必须使用圆括号。例如：
+	
+  ```c++
     list<double> values {1.414, 3.14159265, 2.71828};
     stack<double, list<double>> my_stack (values);
-    ```
-  
-    ​		第二条语句生成了一个包含 value 元素副本的 my_stack。这里不能在 stack 构造函数中使用初始化列表，必须使用圆括号。如果没有在第二个 stack 模板类型参数中将底层容器指定为 list，那么底层容器可能是 deque，这样就不能用 list 的内容来初始化 stack；只能接受 deque。
-  
+  ```
+
+    		第二条语句生成了一个包含 value 元素副本的 my_stack。这里不能在 stack 构造函数中使用初始化列表，必须使用圆括号。如果没有在第二个 stack 模板类型参数中将底层容器指定为 list，那么底层容器可能是 deque，这样就不能用 list 的内容来初始化 stack；只能接受 deque。
+      
     ​		stack<T> 模板定义了拷贝构造函数，因而可以复制现有的 stack 容器：
-  
+      
     ```c++
-    using namespace std
-    stack<double, list<double>> copy_stack {my_stack}
+  stack<double, list<double>> copy_stack {my_stack}
     ```
-  
+    
     堆栈操作：(T为栈中元素类型)
-  
-    - push(const T& obj)  可以将对象副本压入栈顶。这是通过调用底层容器的 push_back() 函数完成的。
+
+  - push(const T& obj)  可以将对象副本压入栈顶。这是通过调用底层容器的 push_back() 函数完成的。
     - pop()                        弹出栈顶元素但没有返回它。
-    - top()                         返回一个栈顶元素的引用但没有弹出，类型为 T&。如果栈为空，返回值未定义。
+  - top()                         返回一个栈顶元素的引用但没有弹出，类型为 T&。如果栈为空，返回值未定义。
     - size()                       返回栈中元素的个数。
     - empty()                    在栈中没有元素的情况下返回 true。
     - emplace()                用传入的参数调用构造函数，在栈顶生成对象。
     - swap(stack<T> & other_stack)将当前栈中的元素和参数中的元素交换。参数所包含元素的类型必须和当前栈的相同。对于 stack 对象有一个特例化的全局函数 swap() 可以使用。
-
- 2. vector 容器
+    
+ 2. **vector 容器**
 
     vector定义在<vector>头文件中，需要包含，并位于std命名空间中。
 
     ```C++
-    #include<vector>
-    using namespace std;
     vector<double> values;   // 创建空容器
     vector<double> values1(20， 1.0); // 开始就有20个int,初始值均为1.0,没有第二个参数初始值默认均为0
     vector<int> values2{1,2,3,4,2,1}; // 指定元素个数和初始值
@@ -118,10 +113,57 @@ extern const int i = 123; // a文件里定义并初始化i，加extern使其能�
     reserve() // 增加容器的容量。
     shrink _to_fit()  // 将内存减少到等于当前元素实际所使用的大小。
     operator[ ]	      // 重载了 [ ] 运算符，可以向访问数组中元素那样，通过下标即可访问甚至修改 vector 容器中的元素。
-    at()	    // 使用经过边界检查的索引访问元素。
-    swap()	    // 交换两个容器的所有元素。
-    emplace()	// 在指定的位置直接生成一个元素。
+    at()	        // 使用经过边界检查的索引访问元素。
+    swap()	        // 交换两个容器的所有元素。
+    emplace()	    // 在指定的位置直接生成一个元素。
     emplace_back()	// 在序列尾部生成一个元素。
     ```
     
-    
+3. **哈希表**
+
+   头文件`<unordered_map>`，在std名命名空间中。它将数据存储为键值对，其中键是唯一的。
+
+   声明和初始化：
+
+   ```C++
+   unordered_map<string, int> map1{{“水果”，1}，{“蔬菜”，2}，2};  // 模板创建，第一个参数是key，第二个是对应的value，使用了初始化列表初始化，最后的2是指定元素个数
+   unordered_map<string, int> map2(map1); // 复制构造
+   ```
+   
+   相关操作：
+   
+   ````c++
+   unordered_map<string, int> map;
+   map["food"] = 14;        // []内放key，后面是对应的value,直接修改或者添加，重复会覆盖
+   map.insert({"eat",15}); // 同一个key插入两次第二次会是失败 
+   map.begin()    // 返回哈希表起始始位置的迭代器（iterator）
+   map.end()      // 返回哈希表最后一个位置的下一个位置的迭代器
+   map.cbegin() map.cend()  // 同上，面向不可变的哈希表
+   map.empty()    // 空返回true,否则返回false
+   map.size()     // 返回哈希表的大小
+   map.erase(map.begin()，map.end())    // 传入一个迭代器或者两个迭代器或者传入key值来删除某一个或者某一范围的键值对
+   map.at("food")       // 传入key值，返回对应value
+   map.bucket("food")   // 传入key值寻找该元素的存储的bucket编号
+   map.bucket_count()   // 返回哈希表中存在的存储桶总数
+   map.count("food")    // 返回名为"food"的key值个数，因为不允许有重复key，所以返回值为0或1
+   ````
+   
+4. **string相关操作**
+  
+   ```C++
+   string s1;                    // 定义空字符串
+   string s2 = "";               // 定义空字符串
+   string s3 = "hello";          // 定义并初始化字符串
+   string s4("world");           // 使用构造函数定义并初始化字符串
+   int len = s.length();         // 或者 s.size()
+   char c = s[0];                // 获取第一个字符
+   char d = s.at(1);             // 获取第二个字符
+   int pos = s.find("world");    // 查找 "world" 在字符串中的位置
+   s.replace(6, 5, "there");     // 把 "world" 替换成 "there"
+   string sub1 = s.substr(0, 5); // 截取字符串的前 5 个字符
+   string sub2 = s.substr(6);    // 截取字符串的第 7 个字符到末尾
+   s.insert(6, "there");        // 在下标为6的位置插入there“
+   s.insert(6, 1, '-');          // 在第6个位置插入 '-'。
+   ```
+  
+  

@@ -18,7 +18,7 @@ sudo pacman -Syu package_name   # 升级系统并安装软件包，Arch Linux �
 sudo pacman -Syyu               # 升级系统 yy标记强制刷新 u标记升级动作
 sudo pacman -Ss package_name    # 搜索包含相关内容的软件包
 sudo pacman -R package_name     # 删除软件包
-
+pacman -Qi package_name         # 查看软件包信息            
 sudo pacman -Rs package_name    # 删除软件包，及其所有没有被其他已安装软件包使用的依赖包
 sudo pacman -Si package_name    # 从数据库中搜索软件包的信息
 sudo pacman -Qdt                # 找出孤立包 Q为查询本地软件包数据库 d标记依赖包 t标记不需要的包 dt合并标记孤立包
@@ -123,7 +123,6 @@ yay -Syyu && yay -Sys
     # 安装好docker后自动建立了docker组，不需要自己添加docker组，只需要把当前工作用户加入docker组即可
     sudo gpasswd -a $USER docker # 把工作用户加入Docker组，避免使用root账号工作
     #重启系统生效
-    
     sudo systemctl disable docker.service # 关闭开机自启动服务
     ```
 
@@ -131,10 +130,13 @@ yay -Syyu && yay -Sys
 
    ```bash
    docker pull archlinux  # 下载镜像
-   docker image ls # 列出下载的镜像
-   docker ps -a   # 列出容器列表
+   docker image ls        # 列出镜像列表
+   docker ps -a           # 列出容器列表
    docker run -t -i archlinux /bin/bash # 启动镜像
-   docker container rm archlinux # 删除一个处于终止状态的镜像
+   docker stop [contaionerID]           # 终止镜像
+   docker stop $(docker ps -aq)         # 停止所有容器
+   docker rmi $(docker images -q)       # 删除所有镜像
+   docker container rm [contaionerID]   # 删除一个处于终止状态的容器
    ```
 
 3. 配置镜像：
@@ -143,7 +145,7 @@ yay -Syyu && yay -Sys
 
    ```bash
    docker run -t -i archlinux /bin/bash # 启动镜像
-   
+   # 在docker内输入以下内容
    sed -i '1i Server = http://mirrors.aliyun.com/archlinux/$repo/os/$arch' /etc/pacman.d/mirrorlist \
        && sed -i '1i Server = https://mirrors.tencent.com/archlinux/$repo/os/$arch' /etc/pacman.d/mirrorlist \
        && sed -i '$i [archlinuxcn]' /etc/pacman.conf \
@@ -161,6 +163,29 @@ yay -Syyu && yay -Sys
        && rm -rf /var/lib/pacman/sync/* /var/cache/pacman/pkg/* \
        && echo "" > /var/log/pacman.log
    ```
+
+   精简版本：
+
+   ```bash
+   sed -i '1i Server = http://mirrors.aliyun.com/archlinux/$repo/os/$arch' /etc/pacman.d/mirrorlist \
+       && sed -i '1i Server = https://mirrors.tencent.com/archlinux/$repo/os/$arch' /etc/pacman.d/mirrorlist \
+       && sed -i '$i [archlinuxcn]' /etc/pacman.conf \
+       && sed -i '$i SigLevel = TrustAll' /etc/pacman.conf \
+       && sed -i '$i Server = https://repo.archlinuxcn.org/$arch' /etc/pacman.conf \
+       && sed -i -r 's/^NoExtract\s*=\s*.*/# \0/g' /etc/pacman.conf \
+       && pacman -Syyu --noconfirm \
+       && pacman -Sy --noconfirm archlinuxcn-keyring && pacman -Su --noconfirm\
+       && pacman -Syy --noconfirm git vim neovim \
+       maven yay go npm yarn tmux \
+       ranger python-pip python-neovim wl-clipboard fzf ripgrep man-db \
+       gcc clang base-devel wqy-zenhei noto-fonts-cjk wget unzip thefuck \
+       && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+       && pacman -Scc --noconfirm \
+       && rm -rf /var/lib/pacman/sync/* /var/cache/pacman/pkg/* \
+       && echo "" > /var/log/pacman.log
+   ```
+
+   
 
 4. 配置vscode：
 
