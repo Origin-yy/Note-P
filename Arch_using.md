@@ -236,3 +236,10 @@ yay -Syyu && yay -Sys
 6.  ``` sudo make install ``` 
 
     这个命令会将编译好的文件安装到系统中，通常是 /usr/local 目录。 如果在执行 configure 或 make 命令时遇到了错误，可以根据错误信息进行调整。通常情况下，错误信息会提示缺少依赖库或者系统环境不兼容等问题。
+
+## 安装deb包
+
+1. 使用yay安装debtap。 `yay -S debtap`
+2. 升级的debtap。`sudo debtap -U`
+3. 转换deb包，生成一个yourfile.zst文件。`sudo debtap yourfile.deb`
+4. 安装转换后的包。`sudo pacman -U yourfile.zst`
