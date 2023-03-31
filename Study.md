@@ -18,4 +18,4 @@ bazel编译：bazel build //main:hello-world
 
 bazel运行：bazel-bin/main/hello-world
 
-chatgpt key ：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
+chatgpt key ：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
