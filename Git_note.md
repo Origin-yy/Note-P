@@ -142,7 +142,9 @@
    git fetch upstream
    # 从远程仓库origin拉取代码（获取最新的代码，但不会将其合并到本地）
    git fetch origin
-   # 将本地分支重置为upstream仓库的版本
+   # 比较本地仓库当前的分支 HEAD 和 upstream/master 分支之间的差异
+   git diff HEAD upstream/master
+   # 将本地分支重置为最新拉取的upstream仓库的版本
    git reset --hard upstream/<upstream_branch_name>
    # 将本地分支重置为oorigin仓库的版本
    git reset --hard origin/<origin_branch_name>

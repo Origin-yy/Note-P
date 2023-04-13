@@ -243,3 +243,33 @@ yay -Syyu && yay -Sys
 2. 升级的debtap。`sudo debtap -U`
 3. 转换deb包，生成一个yourfile.zst文件。`sudo debtap yourfile.deb`
 4. 安装转换后的包。`sudo pacman -U yourfile.zst`
+
+## 压缩文件
+
++ `-c` ：生成一个新的归档文件
++ `-f` ：输出到文件中，
++ `-z` & `-j` ：将 tar 压缩成 gzip 和 bzip2 格式。
++ `archive` ：压缩文件的名称
++ `/path/to/folder` ：要压缩的文件夹的路径。
+```bash
+# 将文件夹压缩成 .tar 文件:
+copy codetar -cf archive.tar /path/to/folder
+# 将文件夹压缩成 .tar.gz 文件:
+copy codetar -czf archive.tar.gz /path/to/folder
+# 将文件夹压缩成 .tar.bz2 文件:
+copy codetar -cjf archive.tar.bz2 /path/to/folder
+```
+
+## 安装QQ
+
+```bash
+yay -Ss linuxqq # 在AUR查找linuxQQ 
+yay -S linuxqq  # 从AUR安装linuxqq
+sudo pacman -Rns linuxqq # 删除linuxqq及不再需要的依赖
+```
+
+### 登陆后闪退的可能解决办法：
+
+删除`~/.config/QQ` 下的所有文件，重启QQ进行登陆并在设置里关闭QQ自己的更新。
+
+其他问题请自行在Google或者在[Arch中文社区](https://bbs.archlinuxcn.org/index.php)寻找解决方案

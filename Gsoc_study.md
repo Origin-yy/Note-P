@@ -76,13 +76,19 @@
 
 ### buffer.cpp
 
-该代码实现了一个基于RDMA的Buffer类，用于管理本地和远程内存的注册和注销。Buffer类封装了ibv_mr结构体，提供了内存大小、地址、lkey、rkey等信息的查询，并提供了ScatterGatherElement类用于构造Scatter/Gather操作的元素。 在Buffer类中，通过mmap函数和munmap函数实现了本地内存的分配和释放，通过ibv_reg_mr函数和ibv_dereg_mr函数实现了对内存的注册和注销。在注册内存时，需要传入一个ibv_pd结构体，用于表示内存所属的Protection Domain。 在RemoteBuffer类中，封装了远程内存的地址、rkey和大小等信息，用于构造远程读写操作。在进行远程读写时，需要构造一个Scatter/Gather操作的元素，该元素包含了远程内存的地址、大小和rkey等信息。该元素可以用于构造ibv_send_wr结构体，从而实现远程读写操作。 该代码的主要难点在于对RDMA的使用，需要对RDMA的相关概念和API有一定的了解。同时，该代码还使用了spdlog和fmt等库，需要对这些库的使用方法进行了解。
+#### Buffer类，用于管理本地和远程内存的注册和注销
+
+该代码实现了一个基于RDMA的**Buffer类，用于管理本地和远程内存的注册和注销**。Buffer类封装了ibv_mr结构体，提供了内存大小、地址、lkey、rkey等信息的查询，并提供了ScatterGatherElement类用于构造Scatter/Gather操作的元素。 在Buffer类中，通过mmap函数和munmap函数实现了本地内存的分配和释放，通过ibv_reg_mr函数和ibv_dereg_mr函数实现了对内存的注册和注销。在注册内存时，需要传入一个ibv_pd结构体，用于表示内存所属的Protection Domain。 在RemoteBuffer类中，封装了远程内存的地址、rkey和大小等信息，用于构造远程读写操作。在进行远程读写时，需要构造一个Scatter/Gather操作的元素，该元素包含了远程内存的地址、大小和rkey等信息。该元素可以用于构造ibv_send_wr结构体，从而实现远程读写操作。 该代码的主要难点在于对RDMA的使用，需要对RDMA的相关概念和API有一定的了解。同时，该代码还使用了spdlog和fmt等库，需要对这些库的使用方法进行了解。
 
 ### connection.cpp
+
+#### Connection类，用于远程直接内存访问来：初始化、发布发送和接收操作、轮询完成事件以及关闭连接的方法，批量接收操作的，发布写入和原子操作
 
 这段代码是一个使用ibverbs库实现的C++ Connection类，用于远程直接内存访问（RDMA）通信。 Connection类提供了初始化、发布发送和接收操作、轮询完成事件以及关闭连接的方法。该类还包括支持批量接收操作的功能，以及发布写入和原子操作的功能。 代码使用ibverbs库与InfiniBand硬件交互。ibverbs库提供了与InfiniBand硬件交互的低级接口，包括创建和配置队列、发布和轮询完成事件，以及执行RDMA操作。 代码使用spdlog库进行日志记录。spdlog库提供了一种简单高效的日志记录机制，可以轻松地集成到C++应用程序中。 总的来说，这段代码是一个结构良好且高效的Connection类实现，使用ibverbs库进行RDMA通信。
 
 ### rdmalib.cpp
+
+#### 存储RDMA连接的地址的类，发起连接的类，接收连接的类，表示RDMA连接的类，用于错误检查和调试的辅助函数命名空间
 
 是一个C++封装的RDMA库，使用了ibverbs和rdma_cm库。以下是每个类和函数的主要作用和实现： 
 
@@ -91,6 +97,7 @@
    - Address(const std::string & ip, int port, bool passive)：构造函数，初始化Address类的成员变量，包括hints、addrinfo等。 
    - Address(const std::string & sip, const std::string & dip, int port)：构造函数，用于创建一个连接到另一个节点的地址。 
    - ~Address()：析构函数，释放addrinfo。
+
 2. RDMAActive类 该类用于主动连接到另一个节点。主要成员函数有： 
    - RDMAActive()：构造函数，初始化RDMAActive类的成员变量。 
    - RDMAActive(const std::string & ip, int port, int recv_buf, int max_inline_data)：构造函数，初始化RDMAActive类的成员变量，包括_cfg、_addr等。
@@ -100,6 +107,7 @@
    - pd() const：获取Protection Domain（PD）。 
    - connection()：获取Connection对象。 
    - is_connected()：判断当前是否连接到远程节点。
+
 3. RDMAPassive类 该类用于被动接收来自其他节点的连接请求。主要成员函数有： 
    - RDMAPassive(const std::string & ip, int port, int recv_buf, bool initialize, int max_inline_data)：构造函数，初始化RDMAPassive类的成员变量，包括_cfg、_addr等。 
    - ~RDMAPassive()：析构函数，销毁listen_id和event_channel。
@@ -109,6 +117,7 @@
    - nonblocking_poll_events(int timeout)：使用poll函数轮询RDMA event channel上的事件。 
    - poll_events(bool share_cqs)：等待RDMA事件，并根据事件类型执行相应操作。 
    - accept(Connection* connection)：接受连接请求。
+
 4. Connection类 该类用于表示RDMA连接。主要成员函数有： 
    - Connection(bool is_listener = false)：构造函数，初始化Connection类的成员变量，包括verbs、id、qp等。 - 
    - initialize(rdma_cm_id* id)：初始化Connection对象。 
@@ -117,7 +126,10 @@
    - get_private_data() const：获取Connection对象的私有数据。 
    - qp() const：获取Queue Pair（QP）对象。 
    - id() const：获取RDMA连接标识符。
-5. impl命名空间 该命名空间包含一些用于错误检查和调试的辅助函数。 以上是该RDMA库的主要类和函数，其中RDMAActive和RDMAPassive类分别用于主动连接和被动接收连接，Connection类表示一个RDMA连接，Address类表示连接的地址。整个库使用了C++11的特性，使用了智能指针和异常处理等机制。
+
+5. impl命名空间 该命名空间包含一些用于错误检查和调试的辅助函数。
+
+    以上是该RDMA库的主要类和函数，其中RDMAActive和RDMAPassive类分别用于主动连接和被动接收连接，Connection类表示一个RDMA连接，Address类表示连接的地址。整个库使用了C++11的特性，使用了智能指针和异常处理等机制。
 
 ## rdmalib/include/rdmalib
 
@@ -159,6 +171,8 @@
 
 ### executor.cpp
 
+####加载共享库、分配和释放资源、接收和发送数据的执行器 
+
 该代码实现了一个基于InfiniBand RDMA技术的远程函数调用(RPC)执行器(executor)，用于在远程主机上执行函数。主要使用了ibverbs库提供的功能。代码中包含了加载共享库、分配和释放资源、接收和发送数据等功能的实现。其中，加载共享库的函数实现了动态链接库的加载和函数名称的提取，以便后续发送函数调用请求时使用。分配资源的函数实现了与远程主机的连接和数据传输的初始化。释放资源的函数实现了与远程主机的断开连接、清理资源等操作。接收和发送数据的函数实现了数据的接收和发送，并通过多线程处理异步请求。
 
 ## server/executor
@@ -179,7 +193,24 @@
 
 ### client.cpp
 
-这段代码实现了一个使用ibverbs库的rFaaS（Remote Function as a Service）执行器管理器。主要功能包括： 1. 初始化ibverbs库 2. 解析命令行参数 3. 配置spdlog日志记录器 4. 注册SIGINT信号处理函数 5. 读取设备信息和执行器管理器设置 6. 启动执行器管理器 7. 关闭执行器管理器 具体实现过程如下： 1. 调用ibv_fork_init()函数初始化ibverbs库，并检查初始化是否成功。 2. 使用cxxopts库解析命令行参数，包括verbose标志和配置文件路径等。 3. 配置spdlog日志记录器，设置日志输出级别和格式。 4. 注册SIGINT信号处理函数，以便在程序接收到SIGINT信号时优雅地关闭执行器管理器。 5. 从指定的设备数据库文件中读取设备信息，使用rdmalib库提供的deserialize()函数实现。 6. 从指定的配置文件中读取执行器管理器的设置，使用自定义的Settings类和deserialize()函数实现。 7. 创建一个Manager对象，并调用其start()函数启动执行器管理器。 8. 当程序接收到SIGINT信号时，调用signal_handler()函数，该函数中调用Manager对象的shutdown()函数来关闭执行器管理器。 9. 关闭执行器管理器后，程序等待1秒钟后结束。 需要注意的是，这段代码中有一行全局变量instance = nullptr;，并在Manager对象创建后将其设置为instance = &mgr;。这是为了在signal_handler()函数中调用Manager对象的成员函数时使用的，因为signal_handler()函数是一个全局函数，无法直接访问Manager对象。
+这段代码实现了一个使用ibverbs库的rFaaS（Remote Function as a Service）执行器管理器。主要功能包括： 
+
+1. 初始化ibverbs库 
+2. 解析命令行参数 
+3. 配置spdlog日志记录器 
+4. 注册SIGINT信号处理函数 
+5. 读取设备信息和执行器管理器设置 
+6. 启动执行器管理器 
+7. 关闭执行器管理器 具体实现过程如下： 
+   1. 调用ibv_fork_init()函数初始化ibverbs库，并检查初始化是否成功。 
+   2. 使用cxxopts库解析命令行参数，包括verbose标志和配置文件路径等。
+   3.  配置spdlog日志记录器，设置日志输出级别和格式。 
+   4. 注册SIGINT信号处理函数，以便在程序接收到SIGINT信号时优雅地关闭执行器管理器。 
+   5. 从指定的设备数据库文件中读取设备信息，使用rdmalib库提供的deserialize()函数实现。 
+   6. 从指定的配置文件中读取执行器管理器的设置，使用自定义的Settings类和deserialize()函数实现。 
+   7. 创建一个Manager对象，并调用其start()函数启动执行器管理器。 
+   8. 当程序接收到SIGINT信号时，调用signal_handler()函数，该函数中调用Manager对象的shutdown()函数来关闭执行器管理器。 
+   9. 关闭执行器管理器后，程序等待1秒钟后结束。 需要注意的是，这段代码中有一行全局变量instance = nullptr;，并在Manager对象创建后将其设置为instance = &mgr;。这是为了在signal_handler()函数中调用Manager对象的成员函数时使用的，因为signal_handler()函数是一个全局函数，无法直接访问Manager对象。
 
 ### client.hpp
 
@@ -200,7 +231,13 @@
 
 ### fast_executor.cpp
 
-该代码是一个使用ibverbs实现的服务器应用程序，它通过RDMA（远程直接内存访问）技术提供函数计算服务。主要包括以下几个部分： 1. Thread::work()函数：执行函数计算的主要逻辑，接收客户端发送的请求，调用对应的函数指针进行计算，并将计算结果通过RDMA发送回客户端。 2. Thread::hot()函数：用于热轮询，不断轮询接收队列，当有请求时调用Thread::work()函数进行处理。该函数还处理了一些超时和计数的逻辑。 3. Thread::warm()函数：用于暖轮询，与Thread::hot()类似，但是会在处理完一定数量的请求后切换为热轮询模式。 4. Thread::thread_work()函数：线程的主要逻辑，包括建立RDMA连接，接收客户端发送的函数数据，启动热轮询或暖轮询，执行函数计算，发送计算结果，最后释放资源。 5. FastExecutors类：多线程执行器，负责创建和管理多个Thread线程，并提供一些管理接口，如close()和allocate_threads()。 整个应用程序的核心思想是使用RDMA技术来提供函数计算服务，通过热轮询和暖轮询两种方式来处理客户端请求，以提高服务器的响应速度和处理能力。
+该代码是一个使用ibverbs实现的服务器应用程序，它通过RDMA（远程直接内存访问）技术提供函数计算服务。主要包括以下几个部分：
+
+1. Thread::work()函数：执行函数计算的主要逻辑，接收客户端发送的请求，调用对应的函数指针进行计算，并将计算结果通过RDMA发送回客户端。
+2. Thread::hot()函数：用于热轮询，不断轮询接收队列，当有请求时调用Thread::work()函数进行处理。该函数还处理了一些超时和计数的逻辑。 
+3. Thread::warm()函数：用于暖轮询，与Thread::hot()类似，但是会在处理完一定数量的请求后切换为热轮询模式。
+4. Thread::thread_work()函数：线程的主要逻辑，包括建立RDMA连接，接收客户端发送的函数数据，启动热轮询或暖轮询，执行函数计算，发送计算结果，最后释放资源。
+5. FastExecutors类：多线程执行器，负责创建和管理多个Thread线程，并提供一些管理接口，如close()和allocate_threads()。 整个应用程序的核心思想是使用RDMA技术来提供函数计算服务，通过热轮询和暖轮询两种方式来处理客户端请求，以提高服务器的响应速度和处理能力。
 
 # Libfabric:
 
