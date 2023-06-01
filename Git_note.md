@@ -57,13 +57,13 @@
   git push -u origin main
   ```
 
-+ 远程origin已存在：
++ 远程origin/upstream已存在：
   
   ```bash
   # 查看远程配置
   git remote -v
   # 删除远程配置
-  git remote rm [远程仓库名]
+  git remote rm [远程仓库名]（一般是origin或者upstream）
   ```
   
 + fatal:拒绝合并无关的历史：
