@@ -62,8 +62,10 @@
   ```bash
   # 查看远程配置
   git remote -v
-  # 删除远程配置
-  git remote rm [远程仓库名]（一般是origin或者upstream）
+  # 删除远程配置  
+  git remote rm [远程仓库名]     （一般是origin或者upstream）
+  # 更改远程配置（可以直接修改，不需要上一步的删除）
+  git remote set-url upstream [upstream的新地址]      
   ```
   
 + fatal:拒绝合并无关的历史：
@@ -144,6 +146,11 @@
    git fetch origin
    # 比较本地仓库当前的分支 HEAD 和 upstream/master 分支之间的差异
    git diff HEAD upstream/master
+   
+   # 显示本地的commit历史版本
+   git log 
+   # 根据commit历史版本号，可以进行版本回退
+   git reset [版本号]
    # 将本地分支重置为最新拉取的upstream仓库的版本
    git reset --hard upstream/<upstream_branch_name>
    # 将本地分支重置为oorigin仓库的版本
