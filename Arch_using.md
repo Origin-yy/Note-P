@@ -14,7 +14,7 @@
 ```bash
 sudo pacman -Syu                # 升级系统
 sudo pacman -S package_name     # 安装软件包
-sudo pacman -Syu package_name   # 升级系统并安装软件包，Arch Linux 不支持部分升级，建议用此命令先升级再安装
+sudo pacman -Syu package_name   # 升级系统并安装软件包，ArchLinux 不支持部分升级，建议用此命令先升级再安装
 sudo pacman -Syyu               # 升级系统 yy标记强制刷新 u标记升级动作
 sudo pacman -Ss package_name    # 搜索包含相关内容的软件包
 sudo pacman -R package_name     # 删除软件包
@@ -28,9 +28,11 @@ sudo pacman -U abc.pkg.tar.gz   # 安装下载的abc包，或新编译的本地a
 sudo pacman -Fy                 # 更新命令查询文件列表数据库
 sudo pacman -F xxx              # 当不知道某个命令属于哪个包时，用来查询某个xxx命令属于哪个包
 sudo pacman -Sc                 # 清理没有安装的所有缓存包，和没有被使用的同步数据库
-yay -S abc                # 安装abc包
-yay -Ss abc | grep 已安装  # 搜索已安装且包含abc的包
-yay -R 包名                # 删除软件包(不包括前后缀，版本号)
+yay -Syu                        # 升级官方和 AUR 的软件包, 包括pacman, -syyu强制升级
+yay -S abc                      # 安装abc包
+yay -Ss abc | grep 已安装        # 搜索已安装且包含abc的包
+yay -R 包名                      # 删除软件包(不包括前后缀，版本号)
+sudo rm /var/lib/pacman/db.lck  # 删除/var/lib/pacman/db.lck锁
 ```
 ## 系统服务的操作与介绍
 
@@ -62,7 +64,7 @@ Server = http://mirrors.aliyun.com/archlinux/$repo/os/$arch
 >参考：[阿里云开发者社区> 镜像站> archlinuxcn](https://developer.aliyun.com/mirror/archlinuxcn?spm=a2c6h.13651102.0.0.3e221b11Nc8UpY)
 >
 ```bash
-sudo pacman -Syy && sudo pacman -S archlinuxcn-keyring
+sudo pacman -Syy && sudo pacman -S archlinuxcn-keyring # 安装 archlinuxcn-keyring 包导入GPG key
 ```
 ## 安装yay
 
@@ -133,11 +135,14 @@ yay -Syyu && yay -Sys
    docker pull archlinux  # 下载镜像
    docker image ls        # 列出镜像列表
    docker ps -a           # 列出容器列表
-   docker run -t -i archlinux /bin/bash # 启动镜像
-   docker stop [contaionerID]           # 终止镜像
-   docker stop $(docker ps -aq)         # 停止所有容器
-   docker rmi $(docker images -q)       # 删除所有镜像
-   docker container rm [contaionerID]   # 删除一个处于终止状态的容器
+   docker run -it archlinux /bin/bash       # 用所给镜像启动一个新的容器
+   docker run --rm -it --net=host gpt-academic # 用所给镜像启动一个新的容器
+   docker exec -it <CONTAINER_NAME> bash    # 进入一个正在运行的docker(在容器内部创建一个子进程)
+   docker stop [contaionerID]               # 终止镜像
+   docker rmi $(docker images -q)           # 删除所有镜像
+   docker stop $(docker ps -aq)             # 停止所有容器
+   docker container rm [contaionerID]       # 删除一个处于终止状态的容器
+   docker container rm $(docker images -q)  # 删除所有容器
    ```
 
 3. 配置镜像：
@@ -274,3 +279,98 @@ sudo pacman -Rns linuxqq # 删除linuxqq及不再需要的依赖
 删除`~/.config/QQ` 下的所有文件，重启QQ进行登陆并在设置里关闭QQ自己的更新。
 
 其他问题请自行在Google或者在[Arch中文社区](https://bbs.archlinuxcn.org/index.php)寻找解决方案
+
+## 安装 fcitx5 及中文输入法
+
+```bash
+sudo pacman -S fcitx5-im 
+sudo pacman -S fcitx5-chinese-addons  fcitx5-rime
+```
+
+`sudo vim /etc/environment`，添加如下内容，之后重启输入法：
+
+```bash
+GTK_IM_MODULE=fcitx
+QT_IM_MODULE=fcitx
+XMODIFIERS=@im=fcitx
+SDL_IM_MODULE=fcitx
+```
+
+在设置中找到输入法，添加输入法，选拼音
+
+### 中文标点消失：
+
++ 编辑~/.config/fcitx/data/punc.mb.zh_CN，自行查找
+
++ [ctrl+.]
+
+## 安装zsh
+
+### 编辑配置文件:
+
+```bash
+vim ~/.zshrc
+```
+
+目前的:
+
+```bash
+
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p12k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p11k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+
+ZSH=/usr/share/oh-my-zsh/
+
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+plugins=(
+	sudo
+	git
+	autojump
+	zsh-syntax-highlighting
+	zsh-autosuggestions
+)
+
+ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
+if [[ ! -d $ZSH_CACHE_DIR ]]; then
+  mkdir $ZSH_CACHE_DIR
+fi
+
+
+source $ZSH/oh-my-zsh.sh
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# other name
+alias sp='sudo pacman' 
+alias syyu='yay -Syyu' # 强制升级系统和软件包
+alias syu='yay -Syu'   # 升级系统和软件包
+alias c='clear' # 清屏
+alias e='exit'  # 退出终端
+alias qq='rm -rf ~/.config/QQ/ && linuxqq &' # 启动QQ时删除文件
+
+# git快捷键 cd+add+commit+push+cd
+
+# 将本地Note仓库提交到gihub
+alias gpn='cd /home/origin/Code/repository/Note && git add . && git commit -m \"update\" && git push && cd -'
+
+# 将本地Code_c仓库提交到gihub
+alias gpc='cd /home/origin/Code/repository/Code_c && git add . && git commit -m \"update\" && git push && cd -'
+
+# 将本地Code_cc仓库提交到gihub
+alias gpcc='cd /home/origin/Code/repository/Code_cc && git add . && git commit -m \"update\" && git push && cd -'
+
+# 将本地Python仓库提交到gihub
+alias gppy='cd /home/origin/Code/repository/Code_py && git add . && git commit -m \"update\" && git push && cd -'
+
+# 将本地my-xv6-labs-2022仓库提交到gihub
+alias gplab='cd /home/origin/Code/repository/my-xv6-labs-2022 && git add . && git commit -m \"update\" && git push &&cd -'
+
+export GOPATH="$HOME/go"
+export PATH="$PATH:/usr/lib/go/bin:$GOPATH/bin"
+export PATH=/usr/sbin:$PATH
+
+```
+

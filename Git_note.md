@@ -114,6 +114,10 @@
 
 4. 之后，你可以在fixBug分支上进行一些修改，然后通过一下步骤将修改好的代码push到GitHub仓库的对应分支。
 
+   当你需要切换分支时，你必须 commit 当前的代码。
+
+   你的每一次 comiit 都会有所记录，当你 push 后，会把所有的 commit 都交上去，如果你commit的文件涉及到一个pr，那么pr中也会有所修改，记录你的commit。
+
    ```bash
    # 查看修改了那些文件
    git status
@@ -123,6 +127,10 @@
    git add .
    # commit 提交（如果官方仓需要Signed-off-by检查的就带账号邮箱信息）
    git commit -m "xxxxx" -s
+   # 将过去的 n 个 commit 合并为一个commit（等待尝试）
+   git rebase -i HEAD~n # 打开一个编辑器，将第二行开始的每一行的第一个单词从pick改为squash。然后保存文件并退出。另一个编辑器会打开，在这里修改最终的提交信息。
+   # 将本次提交合并到上一次提交，如果你上一次提交已经 push过，需要使用--force或者--force-with-lease选项来强制推送。可能会覆盖其他人在远程仓库上做的修改，谨慎使用。
+   git commit --amend  # 会打开一个编辑器，让你修改提交信息。
    # push到远程仓
    git push origin
    ```
@@ -163,5 +171,5 @@
    # 从origin指定的(自己的）GitHub仓库拉取代码
    git fetch origin
    ```
-   
+
    
