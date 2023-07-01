@@ -171,4 +171,9 @@
    git fetch origin
    ```
    
-   
+   ```
+   xmake config --yes
+   xmake build --yes --verbose --all
+   xmake install -o build/package mogan_install
+   build/package/bin/mogan
+   ```

@@ -374,4 +374,8 @@ export PATH=/usr/sbin:$PATH
 
 ```
 
-##为一个文件或目录创建一个软连接：
+##为一个文件或目录创建一个符号链接：
+
+在`/usr/local/local`中存有已经建立的符号链接，在`/usr/share`中有通过自行下载的装包安装的软件，如通过官网安装包安装的code。
+
+输入`ln -s [文件/目录路径] [建立后的软链接名称]`，即可建立链接。如：`ln -s /usr/share/code/code code`
