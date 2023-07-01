@@ -19,7 +19,7 @@ sudo pacman -Syyu               # 升级系统 yy标记强制刷新 u标记升�
 sudo pacman -Ss package_name    # 搜索包含相关内容的软件包
 sudo pacman -R package_name     # 删除软件包
 sudo pacman -Qi package_name    # 查看软件包信息     
-sudo pacman -Q                  # 查看安装的软件包       
+sudo pacman -Q                  # 查看安装的软件包      
 sudo pacman -Rs package_name    # 删除软件包，及其所有没有被其他已安装软件包使用的依赖包
 sudo pacman -Si package_name    # 从数据库中搜索软件包的信息
 sudo pacman -Qdt                # 找出孤立包 Q为查询本地软件包数据库 d标记依赖包 t标记不需要的包 dt合并标记孤立包
@@ -247,8 +247,8 @@ yay -Syyu && yay -Sys
 
 1. 使用yay安装debtap。 `yay -S debtap`
 2. 升级的debtap。`sudo debtap -U`
-3. 转换deb包，生成一个yourfile.zst文件。`sudo debtap yourfile.deb`
-4. 安装转换后的包。`sudo pacman -U yourfile.zst`
+3. 转换deb包，生成一个`yourfile.zst`文件。`sudo debtap yourfile.deb`（接两次回车）
+4. 安装转换后的包。`sudo pacman -U yourfile.zst` 
 
 ## 压缩文件
 

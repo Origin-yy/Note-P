@@ -1,5 +1,3 @@
-令牌：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
-
 远程仓库指github仓库（repositoris），本地仓库指自己被git管理的文件夹（含有.git文件夹）。
 
 + 重新与远程仓库建立联系，并可以提交代码（自己远程仓库有代码 , 本地无代码，比如重装系统或者换电脑）：
@@ -54,7 +52,7 @@
   # 与远程仓库建立连接，远程仓库的名字默认是origin（可换）
   git branch -M main
   # 将提交推送到远程仓库（-u是指第一次提交）
-  git push -u origin main
+  git push -u origin [分支名]
   ```
 
 + 远程origin/upstream已存在：
@@ -81,7 +79,7 @@
 
 假设官方GitHub名叫[officialName]，你的GitHub名叫[yourName]，GitHub仓库名字叫[repository]。
 
-1. 网页操作：在官方GitHub仓库fork一个相同的仓库到你的GitHub.
+1. 网页操作：在官C语言代码方GitHub仓库fork一个相同的仓库到你的GitHub.
 
 2. 在你的仓库复制代码地址[your code SSH/HTTPS]，在官方仓库复制代码地址[official code SSH/HTTPS]，然后
 
@@ -142,7 +140,8 @@
    ```bash
    # 分支操作：
    # 查看所有分支
-   git branch（*代表当前所在分支）
+   git bC语言代码
+   ranch（*代表当前所在分支）
    # 删除分支
    git branch -d [branchName](-d换为-D强制删除)
    # 更改分支名
@@ -171,5 +170,5 @@
    # 从origin指定的(自己的）GitHub仓库拉取代码
    git fetch origin
    ```
-
+   
    
