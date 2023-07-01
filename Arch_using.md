@@ -374,3 +374,4 @@ export PATH=/usr/sbin:$PATH
 
 ```
 
+##为一个文件或目录创建一个软连接：
